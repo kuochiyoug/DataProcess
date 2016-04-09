@@ -7,7 +7,6 @@ import numpy as np
 import math
 
 Stepsize = 3
-ModifyList =[-1]
 
 
 def sort_nicely(list):
@@ -26,9 +25,22 @@ def str2flist(str):
 if __name__ == "__main__":
     argv = sys.argv
     if len(argv) < 2:
-        print "Usage: Gripper_Step.py [InputDir] [Gripper_Amount]"
+        print "Usage: Gripper_Step.py [InputDir] [OutputDir] [Gripper_Amount]"
+        exit()
     Input_dir = argv[1]
-    outdir = Input_dir + "/Modified_Motion"
+    outdir = argv[2]
+    Gripper_Amount = argv[3]
+    if Input_dir[-1] != "/":
+        Input_dir = Input_dir+"/"
+
+    if Gripper_Amount == "1":
+        ModifyList =[-1]
+    elif Gripper_Amount == "2":
+        ModifyList =[-1,-2]
+    else:
+        print "[ERROR] Gripper Amount Max to 2"
+        exit()
+
     if not os.path.isdir(outdir):
         os.makedirs(outdir)
     Gripper_flag = False

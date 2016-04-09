@@ -60,9 +60,10 @@ for root,dirs,files in os.walk(indir):
 		#print os.path.dirname(outf)
 		if not os.path.isdir(os.path.dirname(outf)):
 			os.makedirs(os.path.dirname(outf))
-			print os.path.dirname(outf)
+			print "Picture:" + str(os.path.dirname(outf))
 		outf = outf.replace(".png",".dat")
 		#cmd = ["./getPixel",inf,outf]
+		print "INPUT:" + str(inf)
 		cmd = ["./getPixelColor",inf,outf]
 		if subprocess.call(cmd) != 0:
 			quit()

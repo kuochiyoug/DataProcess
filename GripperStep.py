@@ -29,7 +29,7 @@ if __name__ == "__main__":
 	if len(argv) < 2:
 		print "Usage: Gripper_Step.py [InputDir]"
 	Input_dir = argv[1]
-	outdir = Input_dir + "/Modified_Motion"
+	outdir = Input_dir + "/Gripper_Modified_Motion"
 	if not os.path.isdir(outdir):
 		os.makedirs(outdir)
 	Gripper_flag = False

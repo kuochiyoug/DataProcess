@@ -14,19 +14,37 @@ def sort_nicely(list):
 argv = sys.argv
 
 
-NormalizeRangeList = [[-88,88],[-140,60],[0,-158],[-165,105],[-100,100],[-163,163],
+
+if len(argv) != 5:
+    print "Before you do this! Please check your Normalize Range in this code."
+    print "Usage: MotionNormalizer.py [InputDir] [OutputDir] [NormalizeMode] [ArmMode]"
+    print "[ArmMode] = 1: Both Arms"
+    print "[ArmMode] = 2: One Arm Only"
+    print "[NormalizeMode] = 1: Normalize to [0.1 - 0.9]"
+    print "[NormalizeMode] = 2: Normalize to [-0.9 - 0.9]"
+    exit()
+
+if argv[3] == "1":
+    NormalizeMax = 0.9
+    NormalizeMin = 0.1
+elif argv[3] == "2":
+    NormalizeMax = 0.9
+    NormalizeMin = -0.9
+else:
+    print "[ERROR] Please check your [NormalizeMode]"
+    exit()
+
+
+if argv[4] == "1":
+    NormalizeRangeList = [[-88,88],[-140,60],[0,-158],[-165,105],[-100,100],[-163,163],
 		[-88,88],[-140,60],[0,-158],[-165,105],[-100,100],[-163,163],
 		[-1,800],[-1,800]]
-
-NormalizeMax = 0.9
-NormalizeMin = 0.1
-
-
-
-if len(argv) != 3:
-	print "Before you do this! Please check your Normalize Range in this code."
-	print "Usage: getMotionData.py [InputDir] [OutputDir]"
-	exit()
+elif argv[4] == "2":
+    NormalizeRangeList = [[-88,88],[-140,60],[0,-158],[-165,105],[-100,100],[-163,163],
+		[-1,800]]
+else:
+    print "[ERROR] Please check your [ArmMode]"
+    exit()
 
 indir = os.path.realpath(argv[1])
 outdir = os.path.realpath(argv[2])
