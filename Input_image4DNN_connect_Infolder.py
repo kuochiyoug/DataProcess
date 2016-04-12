@@ -27,9 +27,9 @@ def str2flist(str):
 if __name__ == "__main__":
 	
     argv = sys.argv
-    if len(argv) <= 3:
+    if len(argv) != 4:
         print "Usage: Input_image4DNN_connect_Infolder.py [InputFolder] [Outputfile] [ListFile]"
-        exit()
+        #exit()
 
 
 

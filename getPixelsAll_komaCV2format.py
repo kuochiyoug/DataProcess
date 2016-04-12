@@ -7,12 +7,15 @@ import numpy as np
 
 argv = sys.argv
 
-if len(argv) != 3:
-    print "Usage: test.py [InputDir] [OutputDir]"
+if len(argv) != 5:
+    print "Usage: test.py [InputDir] [OutputDir] [Resize_H] [Resized_W]"
     exit()
 
 indir = os.path.realpath(argv[1])
 outdir = os.path.realpath(argv[2])
+resized_height = int(argv[3])
+resized_width = int(argv[4])
+
 
 for root,dirs,files in os.walk(indir):
     if root.startswith(outdir):
@@ -28,11 +31,12 @@ for root,dirs,files in os.walk(indir):
         os.makedirs(outd)
 
 
-    for f in files:
+    for f in sorted(files):
         #realpath = os.path.abspath(f)
         print root
         #print os.path.dirname(realpath)
 
+        
 
         if not f.endswith(".png"):
             continue
@@ -61,15 +65,51 @@ for root,dirs,files in os.walk(indir):
         
         print "inf: " + str(inf)
         outf = os.path.join(root.replace(indir,outdir),tmp_f)
-        print outf
+        
+        #print outf
         #print os.path.dirname(outf)
         if not os.path.isdir(os.path.dirname(outf)):
             os.makedirs(os.path.dirname(outf))
-            print os.path.dirname(outf)
+            #print os.path.dirname(outf)
         outf = outf.replace(".png",".dat")
+        print outf
+        
         #cmd = ["./getPixel",inf,outf]
         #cmd = ["./getPixelColor",inf,outf]
         array = cv2.imread(inf)
         (h, w) = array.shape[:2]
-        array = cv2.resize(array,(h/4,w/4))
-        np.savetxt(outf,array)
+        
+        print resized_height
+        print resized_width
+
+        array = cv2.resize(array,(resized_width,resized_height))
+        
+        #array=array.astype(float)/255
+        fw = open(outf, "w")
+        array.tofile(outf," ")
+        #print array.shape
+        #print array.size
+        
+        count = 0 
+        for h in range(resized_height):
+            for w in range(resized_width):
+                for ch in range(3):
+                    #print "h:"+str(h)+" w:"+str(w)+" ch:"+str(ch)
+                    #print array[h][w]
+                    buff = float(array[h][w][ch])/255
+                    #buff = array[h][w][ch]
+                    #fw.write(str(buff))
+                    fw.write(format(buff,'0.7f'))
+                    count += 1
+                    if int(w) != int(resized_width):
+                        fw.write(" ")
+            #fw.write("\n")
+        #print count
+        fw.close()
+        
+        
+        img = np.fromfile(outf,sep=' ')
+        #print img.shape
+        #print img.reshape(resized_width,resized_height,3)
+        cv2.imshow("window",array)
+        cv2.waitKey(1)

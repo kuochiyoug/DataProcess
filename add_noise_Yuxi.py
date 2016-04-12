@@ -18,7 +18,7 @@ if Input_dir[-1] != "/" :
 if Output_dir[-1] != "/" :
     Output_dir = Output_dir + "/"
 if os.path.isdir(Output_dir) == False:
-    os.mkdir(Output_dir)
+    os.makedirs(Output_dir)
 
 np.random.seed(SeedNum)
 
@@ -32,7 +32,7 @@ filenames.sort()
 
 for filename in filenames:
     print filename
-    new_filename = filename.replace(".dat", "_noisy_seed"+SeedNum+".dat")  #get new name for new data
+    new_filename = filename.replace(".dat", "_noisy_seed"+str(SeedNum)+".dat")  #get new name for new data
     data = np.loadtxt(filename)              #read and write file's content in data
     gaussian_noise = np.random.normal(0, sigma, size = (data.shape[0], data.shape[1]))
     data[:, :] += gaussian_noise[:, :]

@@ -96,21 +96,15 @@ class DNNReproduceClass:
 
 
         
-
-
-
 class CNF_for_FeedForward:
     def __init__(self,ModelFile):
         self.numlayers = ModelFile['cnf']['numlayers'][0][0].transpose()
         self.layersizes = ModelFile['cnf']['layersizes'][0][0].transpose()
         self.layertypes = ModelFile['cnf']['layertypes'][0][0].transpose()
 
-    
-
-
 
 if __name__ == '__main__':
-    RModel = "/home/assimilation/Koma/workspace/HFOptimizeSimple/result/NextageExperiment/mid25/ALL_R_Color_2e-7_seed12345_Train5404_TestSmooth01/result_HFMNIST_12345_80.mat"
+    RModel = "/home/assimilation/Koma/workspace/HFOptimizeSimple/result/NextageExperiment/FoldingTask/TableOnly/DNN/mid25/ALL_R_Color_2e-7_seed12345_Train5404_TestSmooth01/result_HFMNIST_12345_80.mat"
 
     InputDataFile = "/home/assimilation/Koma/Nextage_Experiment/FoldingTask/Experiment1-LeftHand_ShimaRagOnly/Data4DNN/40x30_Color/ALL_R.dat"
     data = np.loadtxt(InputDataFile)

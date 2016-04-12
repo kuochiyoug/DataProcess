@@ -6,14 +6,20 @@ clear
 #read RAW_DATA
 #echo "Please input your output folder:"
 #read OUT
-IMAGE_RAW_DATA="/home/assimilation/Koma/Nextage_Experiment/FoldingTask/Experiment1-GreenSheet_LeftHand_ShimaRagOnly_2arms_Predesigned/RawData/UEye_Img/"
-OUT="/home/assimilation/Koma/Nextage_Experiment/FoldingTask/Experiment1-GreenSheet_LeftHand_ShimaRagOnly_2arms_Predesigned/ProcessedData/"
+IMAGE_RAW_DATA="/home/assimilation/Koma/Nextage_Experiment/PenPicking/SamePosition/RawData/IdolData/Image/"
+OUT="/home/assimilation/Koma/Nextage_Experiment/PenPicking/SamePosition/ProcessData_CV2/"
+Resized_H=30
+Resized_W=40
+
 
 #########################################
 echo "RAW IMAGE --> PIXEL...."
 PIXEL_DATA=$OUT"IMG_Pixel/"
 mkdir $PIXEL_DATA
-python ./getPixelsAll.py $IMAGE_RAW_DATA $PIXEL_DATA
+#
+#python ./getPixelsAll.py $IMAGE_RAW_DATA $PIXEL_DATA
+python ./getPixelsAll_komaCV2format.py $IMAGE_RAW_DATA $PIXEL_DATA $Resized_H $Resized_W
+
 
 echo "Connecting each Image to Motion...."
 CONNECT_DATA=$OUT"IMG_ConnectPixelData/"
@@ -28,8 +34,8 @@ Motion_Count=$(ls $CONNECT_COMMAND_L | grep ".dat$" | wc -l)
 Files=$(ls $CONNECT_COMMAND_L | grep ".dat$") 
 echo "You have "$Motion_Count "files to Connect"
 echo $Files
-CONNECT_FILE_L=$CONNECT_DATA"Left_Motion$Motion_Count""_ConnectedData.dat"
-CONNECT_FILE_R=$CONNECT_DATA"Right_Motion$Motion_Count""_ConnectedData.dat"
+CONNECT_FILE_L=$CONNECT_DATA"IMG_Left_Motion$Motion_Count""_ConnectedData.dat"
+CONNECT_FILE_R=$CONNECT_DATA"IMG_Right_Motion$Motion_Count""_ConnectedData.dat"
 LIST_FILE_L=$CONNECT_DATA"IMG_Left_ConnectList.dat"
 LIST_FILE_R=$CONNECT_DATA"IMG_Right_ConnectList.dat"
 

@@ -2,7 +2,7 @@
 
 import sys,os,re
 import collections
-
+import numpy as np
 
 def sort_nicely(list):
 	convert = lambda text: int(text) if text.isdigit() else text 
@@ -27,7 +27,7 @@ argv = sys.argv
 
 if len(argv) <= 3:
 	print "Before you do this! Please check your Normalize Range in this code."
-	print "Usage: SeqenceConnect.py [ListFile] [InputDir1] [InputDir2] [OutputDir]"
+	print "Usage: SequenceConnect.py.py [ListFile] [InputDir1] [InputDir2] [OutputDir]"
 	exit()
 
 
@@ -65,7 +65,10 @@ for f in DataNamelist:
    ##Read Data from file in Indir1
    Data1 = []
    for i in range(len(InputDatalines1)):
-        Data1.append(map(float,InputDatalines1[i].strip("\n").split(' ')))
+        buf = np.fromstring(InputDatalines1[i],dtype=float,sep=" ")
+        buf = buf.tolist()
+        #print buf
+        Data1.append(buf)
 
 
    fr = open(inf2,"r")
@@ -74,8 +77,14 @@ for f in DataNamelist:
    ##Read Data from file in Indir2
    Data2 = []
    for i in range(len(InputDatalines2)):
-       Data2.append(map(float,InputDatalines2[i].strip("\n").split(' ')))
+       buf = np.fromstring(InputDatalines2[i],dtype=float,sep=" ")
+       buf = buf.tolist()
+       #print buf
+       Data2.append(buf)
 
+
+
+   #print Data2
    #Check Data Length
    if len(Data1) != len(Data2):
        print "ERROR occurs in " + f
@@ -86,12 +95,15 @@ for f in DataNamelist:
    #print Data
    connected_data = connecting(Data1,Data2)
    if os.path.isdir(outdir) == False:
-      os.mkdir(outdir)
+      os.makedirs(outdir)
+      #print "Create Folder"
 
    compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
    outfr = open(outdir + f,"w")
+   #print outdir + f
    for data in connected_data:
       for i in range(len(data)):
+         #print data[i]
          outfr.write(format(data[i],".7f"))
          if not (i == len(data)-1):
             outfr.write(' ')
